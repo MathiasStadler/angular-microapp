@@ -29,7 +29,7 @@ const clientA = {
           }
         ]
       },*/
-      
+
       {
         test: /\.js$/,
         loader: '@angular-devkit/build-optimizer/webpack-loader',
@@ -37,11 +37,11 @@ const clientA = {
           sourceMap: false
         }
       }
-      
+
     ]
   },
   plugins: [
-    
+
     new AotPlugin({
       skipCodeGeneration: false,
       tsConfigPath: './projects/client-a/tsconfig.app.json',
@@ -50,9 +50,9 @@ const clientA = {
       },
       entryModule: path.resolve(__dirname, './projects/client-a/src/app/app.module#AppModule' )
     }),
-    
+
     new PurifyPlugin()
-    
+
   ],
   output: {
     path: __dirname + '/dist/shell/client-a',
@@ -83,7 +83,7 @@ const clientB = {
           }
         ]
       },*/
-      
+
       {
         test: /\.js$/,
         loader: '@angular-devkit/build-optimizer/webpack-loader',
@@ -91,7 +91,7 @@ const clientB = {
           sourceMap: false
         }
       }
-      
+
     ]
   },
   plugins: [
@@ -104,9 +104,9 @@ const clientB = {
       tsConfigPath: './projects/client-b/tsconfig.app.json',
       entryModule: path.resolve(__dirname, './projects/client-b/src/app/app.module#AppModule' )
     }),
-    
+
     new PurifyPlugin()
-    
+
   ],
   output: {
     path: __dirname + '/dist/shell/client-b',
@@ -115,4 +115,58 @@ const clientB = {
   mode: 'production'
 };
 
-module.exports = [clientA, clientB];
+const clientC = {
+  entry: './projects/client-c/src/main.ts',
+  resolve: {
+    mainFields: ['browser', 'module', 'main']
+  },
+  module: {
+    rules: [
+      { test: /\.ts$/, loaders: ['@ngtools/webpack'] },
+      { test: /\.html$/, loader: 'html-loader',  options: { minimize: true } },
+      /*{
+        test: /\.css$/,
+        "use": [
+          "style-loader",
+          {
+            "loader": "css-loader",
+            "options": {
+              "sourceMap": false,
+              "import": false
+            }
+          }
+        ]
+      },*/
+
+      {
+        test: /\.js$/,
+        loader: '@angular-devkit/build-optimizer/webpack-loader',
+        options: {
+          sourceMap: false
+        }
+      }
+
+    ]
+  },
+  plugins: [
+
+    new AotPlugin({
+      skipCodeGeneration: false,
+      tsConfigPath: './projects/client-c/tsconfig.app.json',
+      hostReplacementPaths: {
+        "./src/environments/environment.ts": "./src/environments/environment.prod.ts"
+      },
+      entryModule: path.resolve(__dirname, './projects/client-c/src/app/app.module#AppModule' )
+    }),
+
+    new PurifyPlugin()
+
+  ],
+  output: {
+    path: __dirname + '/dist/shell/client-a',
+    filename: 'main.bundle.js'
+  },
+  mode: 'production'
+};
+
+module.exports = [clientA, clientB, clientC];

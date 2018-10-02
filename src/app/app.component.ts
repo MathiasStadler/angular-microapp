@@ -23,6 +23,10 @@ export class AppComponent {
       loaded: false,
       path: 'client-b/main.js',
       element: 'client-b'
+    },"client-c": {
+      loaded: false,
+      path: 'client-c/main.js',
+      element: 'client-c'
     },
 
   };
@@ -30,6 +34,7 @@ export class AppComponent {
   ngOnInit() {
     this.load('client-a');
     this.load('client-b');
+    this.load('client-c');
   }
 
   load(name: string): void {
@@ -46,23 +51,10 @@ export class AppComponent {
     const element: HTMLElement = document.createElement(configItem.element);
     content.appendChild(element);
 
-
-
-
-
-
-
-
-
-
-
-
-
     element.addEventListener('message', msg => this.handleMessage(msg));
     element.setAttribute('state', 'init');
 
     script.onerror = () => console.error(`error loading ${configItem.path}`);
-
 
     this.stateService.registerClient(element);
 
