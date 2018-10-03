@@ -495,6 +495,125 @@
           }
         }
       }
+    },
+    "service-worker": {
+      "root": "projects/service-worker/",
+      "sourceRoot": "projects/service-worker/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/service-worker",
+            "index": "projects/service-worker/src/index.html",
+            "main": "projects/service-worker/src/main.ts",
+            "polyfills": "projects/service-worker/src/polyfills.ts",
+            "tsConfig": "projects/service-worker/tsconfig.app.json",
+            "assets": [
+              "projects/service-worker/src/favicon.ico",
+              "projects/service-worker/src/assets"
+            ],
+            "styles": [
+              "projects/service-worker/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/service-worker/src/environments/environment.ts",
+                  "with": "projects/service-worker/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "service-worker:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "service-worker:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "service-worker:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/service-worker/src/test.ts",
+            "polyfills": "projects/service-worker/src/polyfills.ts",
+            "tsConfig": "projects/service-worker/tsconfig.spec.json",
+            "karmaConfig": "projects/service-worker/karma.conf.js",
+            "styles": [
+              "projects/service-worker/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/service-worker/src/favicon.ico",
+              "projects/service-worker/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/service-worker/tsconfig.app.json",
+              "projects/service-worker/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "service-worker-e2e": {
+      "root": "projects/service-worker-e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/service-worker-e2e/protractor.conf.js",
+            "devServerTarget": "service-worker:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "service-worker:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/service-worker-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "schematics": {
