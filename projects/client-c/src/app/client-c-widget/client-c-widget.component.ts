@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
   <div id="widget">
   <div class="card">
     <div class="header">
-      <h1>Your Flights</h1>
+      <h1>Your Seats</h1>
     </div>
     <div class="content">
   <table class="table table-contensed">
@@ -30,7 +30,7 @@ import { Observable } from 'rxjs';
       <tr>
           <td>4712</td>
           <td>Frankfurt</td>
-          <td>Graz</td>
+          <td><a href="google.de" >Graz fetch test</a> </td>
       </tr>
 
       </table>

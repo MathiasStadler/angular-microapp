@@ -53,8 +53,12 @@ export class AppVersion implements UpdateSource {
   get okay(): boolean { return this._okay; }
 
   constructor(
-      private scope: ServiceWorkerGlobalScope, private adapter: Adapter, private database: Database,
-      private idle: IdleScheduler, readonly manifest: Manifest, readonly manifestHash: string) {
+      private scope: ServiceWorkerGlobalScope,
+      private adapter: Adapter,
+      private database: Database,
+      private idle: IdleScheduler,
+      readonly manifest: Manifest,
+      readonly manifestHash: string) {
     // The hashTable within the manifest is an Object - convert it to a Map for easier lookups.
     Object.keys(this.manifest.hashTable).forEach(url => {
       this.hashTable.set(url, this.manifest.hashTable[url]);

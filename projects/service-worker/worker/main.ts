@@ -9,8 +9,12 @@
 import {Adapter} from './src/adapter';
 import {CacheDatabase} from './src/db-cache';
 import {Driver} from './src/driver';
+import {ProjectDriver} from './src/project-driver';
 
 const scope = self as any as ServiceWorkerGlobalScope;
 
 const adapter = new Adapter();
-const driver = new Driver(scope, adapter, new CacheDatabase(scope, adapter));
+// const driver = new Driver(scope, adapter, new CacheDatabase(scope, adapter));
+
+// change to
+const driver = new ProjectDriver(scope, adapter, new CacheDatabase(scope, adapter));
