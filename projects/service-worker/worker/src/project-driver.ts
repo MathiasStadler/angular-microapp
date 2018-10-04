@@ -1,3 +1,7 @@
+//import idb from './idb';
+//import * as idxdb from "./idb";
+import "./idb.js";
+
 import { Driver } from './driver';
 import { Adapter } from './adapter';
 import { Database } from './database';
@@ -8,12 +12,24 @@ export class ProjectDriver {
 
   scope: ServiceWorkerGlobalScope;
 
+  dbPromise :any;
+
   constructor(
     scope: ServiceWorkerGlobalScope, adapter: Adapter, db: Database) {
 
     // super(scope,adapter,db);
 
     this.scope = scope;
+
+
+    this.dbPromise = idb.open('posts-store', 1, function (db) {
+      if (!db.objectStoreNames.contains('posts')) {
+        db.createObjectStore('posts', {keyPath: 'id'});
+      }
+    });
+
+
+    this.writeData('posts', "hallo");
 
 
     this.scope.addEventListener('fetch', (event) => this.onFetch(event!));
@@ -28,7 +44,7 @@ export class ProjectDriver {
       // SW version immediately.
       // remark
       // event !.waitUntil(this.scope.skipWaiting());
-      console.log("[ project driver ] install ");
+      console.log("[ project driver ] install " , event);
     });
 
     // The activate event is triggered when this version of the service worker is
@@ -61,19 +77,33 @@ export class ProjectDriver {
   private onFetch(event: FetchEvent): void {
     const req = event.request;
 
-    console.log("[ project driver ] myFetch " + req);
+    console.log("[ project driver ] onFetch " ,req);
+
+    console.log(JSON.stringify(req));
+
   }
 
-  private onMessage(event: FetchEvent): void {
-    const req = event.request;
+  private onMessage(event: ExtendableMessageEvent): void {
 
-    console.log("[ project driver ] myFetch " + req);
+
+    console.log("[ project driver ] onMessage ", event);
   }
 
-  private onPush(event: FetchEvent): void {
-    const req = event.request;
+  private onPush(event: PushEvent): void {
 
-    console.log("[ project driver ] myFetch " + req);
+
+    console.log("[ project driver ] onPush ", event);
   }
+
+   writeData(st:String, data :String) {
+    return this.dbPromise
+      .then(function(db:any) {
+        var tx = db.transaction(st, 'readwrite');
+        var store = tx.objectStore(st);
+        store.put(data);
+        return tx.complete;
+      });
+  }
+
 
 }

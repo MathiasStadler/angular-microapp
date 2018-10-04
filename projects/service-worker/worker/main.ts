@@ -6,6 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+
+
 import {Adapter} from './src/adapter';
 import {CacheDatabase} from './src/db-cache';
 import {Driver} from './src/driver';

@@ -21,6 +21,7 @@
   },
   "files": [
     "main.ts",
-    "src/service-worker.d.ts"
+    "src/service-worker.d.ts",
+    "src/idb.d.ts"
   ]
 }
