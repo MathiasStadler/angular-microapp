@@ -19,7 +19,7 @@
     "build-pwa": "npm run build:shell && npm run build:clients && npm run ngsw-config && npm run build-ngsw",
     "start-pwa": "http-server -c-1 dist/shell -p 8765",
     "build-ngsw": "projects/service-worker/build.sh",
-    "copy-idb-js" :"copyfiles -f projects/service-worker/worker/src/**/*js dist/worker-es2017/src"
+    "copy-idb-js": "copyfiles -f projects/service-worker/worker/src/**/*js dist/worker-es2017/src"
   },
   "private": true,
   "dependencies": {
@@ -69,6 +69,7 @@
     "rollup-plugin-commonjs": "^9.1.8",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-typescript2": "^0.17.1",
+    "rollup-plugin-uglify": "^4.0.0",
     "ts-node": "~7.0.1",
     "tslint": "~5.11.0",
     "typescript": "^2.9.2",

@@ -1,6 +1,6 @@
-//import idb from './idb';
+import idb from 'idb';
 //import * as idxdb from "./idb";
-import "./idb.js";
+//import "./idb.js";
 
 import { Driver } from './driver';
 import { Adapter } from './adapter';
@@ -22,15 +22,23 @@ export class ProjectDriver {
     this.scope = scope;
 
 
-    this.dbPromise = idb.open('posts-store', 1, function (db) {
-      if (!db.objectStoreNames.contains('posts')) {
-        db.createObjectStore('posts', {keyPath: 'id'});
+    this.dbPromise = idb.open('store', 1, function (db) {
+      if (!db.objectStoreNames.contains('store')) {
+        db.createObjectStore('store', {keyPath: 'id'});
       }
     });
 
+    var item = [
+      "key: 'istupid'",
+      "name: 'sandwich'",
+      "price: 4.99",
+      "description: 'A very tasty sandwich'",
+      "created: new Date().getTime()"
+    ];
 
-    this.writeData('posts', "hallo");
+    //this.writeData('posts', item);
 
+    this.writeData();
 
     this.scope.addEventListener('fetch', (event) => this.onFetch(event!));
     this.scope.addEventListener('message', (event) => this.onMessage(event !));
@@ -95,7 +103,7 @@ export class ProjectDriver {
     console.log("[ project driver ] onPush ", event);
   }
 
-   writeData(st:String, data :String) {
+   writeData_old(st:String, data :String[]) {
     return this.dbPromise
       .then(function(db:any) {
         var tx = db.transaction(st, 'readwrite');
@@ -104,6 +112,26 @@ export class ProjectDriver {
         return tx.complete;
       });
   }
+
+writeData(){
+console.log("[project driver] writeData");
+  this.dbPromise.then(function(db:any) {
+    var tx = db.transaction('store', 'readwrite');
+    var store = tx.objectStore('store');
+    var item = {
+      id: 'aaa',
+      key:'keykey',
+      name: 'sandwich',
+      price: 4.99,
+      description: 'A very tasty sandwich',
+      created: new Date().getTime()
+    };
+    store.add(item);
+    return tx.complete;
+  }).then(function() {
+    console.log('added item to the store os!');
+  });
+}
 
 
 }
